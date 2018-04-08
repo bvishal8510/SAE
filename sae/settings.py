@@ -127,6 +127,6 @@ STATIC_URL = '/static/'
 #https://django-payments.readthedocs.io/en/latest/install.html
 PAYMENT_HOST = 'localhost:8000'
 PAYMENT_USES_SSL = False
-PAYMENT_MODEL = 'mypaymentapp.Payment'
+PAYMENT_MODEL = 'meter.Payment'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {})}

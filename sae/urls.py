@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from meter.views import CSP
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r"^api/stripe/", include("payments.urls")),
+    url(r'^',CSP),
+    url(r"^payments/", include("payments.urls")),
     url(r'^docs/', include('rest_framework_docs.urls')),
 ]
