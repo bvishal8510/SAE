@@ -1,16 +1,19 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
-# from .models import Payment
+from .models import User_details, Payment_details, Meter_details
+from .serializers import UserSerializer, PaymentSerializer
 from paytm.payments import PaytmPaymentPage
 from paytm import Checksum
 from django.http import HttpResponse
 from paytm.payments import VerifyPaytmResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+# def signup(request):
+    
+
+
 def payment(request):
-    # provide your unique order id
-    # if you don't have your unique order id then
     order_id = Checksum.__id_generator__()
     bill_amount = "100"
     cust_id = "payment_maker@email.com"
@@ -21,7 +24,6 @@ def payment(request):
             }
     return PaytmPaymentPage(data_dict)
     
-
 
 @csrf_exempt
 def response(request):
