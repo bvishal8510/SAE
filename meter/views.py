@@ -8,12 +8,20 @@ from paytm import Checksum
 from django.http import HttpResponse
 from paytm.payments import VerifyPaytmResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+
+
 
 # def signup(request):
     
 
-
+# @api_view(['POST'])
 def payment(request):
+    # serializer = PaymentSerializer(data=request.data)
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     order_id = Checksum.__id_generator__()
     bill_amount = "100"
     cust_id = "payment_maker@email.com"
@@ -22,10 +30,15 @@ def payment(request):
                 'TXN_AMOUNT': bill_amount,
                 'CUST_ID': cust_id
             }
+    print(5)
+    print(PaytmPaymentPage(data_dict))
+    print(7)
     return PaytmPaymentPage(data_dict)
+    print(6)
     
 
 @csrf_exempt
+@api_view(['GET'])
 def response(request):
     resp = VerifyPaytmResponse(request)
     if resp['verified']:

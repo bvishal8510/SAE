@@ -14,12 +14,10 @@ def generate_checksum(param_dict, merchant_key, salt=None):
     params_string = __get_param_string__(param_dict)
     salt = salt if salt else __id_generator__(4)
     final_string = '%s|%s' % (params_string, salt)
-
     hasher = hashlib.sha256(final_string.encode())
     hash_string = hasher.hexdigest()
-
     hash_string += salt
-
+    print('a')
     return __encode__(hash_string, IV, merchant_key)
 
 
@@ -66,7 +64,8 @@ def __id_generator__(size=6, chars=string.ascii_uppercase + string.digits + stri
 
 def __get_param_string__(params):
     params_string = []
-    for key in sorted(params.iterkeys()):
+    # for key in sorted(params.iterkeys()):
+    for key in sorted(params.keys()):
         value = params[key]
         params_string.append('' if value == 'null' else str(value))
     return '|'.join(params_string)
@@ -81,10 +80,14 @@ def __encode__(to_encode, iv, key):
     to_encode = __pad__(to_encode)
     # Encrypt
     c = AES.new(key, AES.MODE_CBC, iv)
+    print(11)
     to_encode = c.encrypt(to_encode)
+    print(12)
     # Encode
     to_encode = base64.b64encode(to_encode)
+    print(13)
     return to_encode
+    print(14)
 
 
 def __decode__(to_decode, iv, key):

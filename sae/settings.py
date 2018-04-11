@@ -130,11 +130,11 @@ PAYTM_EMAIL  = "<YOUR-EMAIL-ID>"
 PAYTM_MOBILE = "<YOUR-MOBILE-NUMBER>"
 PAYTM_STAGING = True
 if PAYTM_STAGING:
-    PAYTM_MERCHANT_KEY = "<YOUR-STAGING-MERCHANT-KEY>"
+    PAYTM_MERCHANT_KEY = "bKMfNxPPf_QdZppa"
     PAYTM_INDUSTRY_TYPE_ID = "Retail"
-    PAYTM_MERCHANT_ID = "<YOUR-MERCHANT-ID>"
+    PAYTM_MERCHANT_ID = "DIY12386817555501617"
     PAYTM_CALLBACK_URL = "http://localhost:8000/wallet/response/" if DEBUG else "http://www.yourwebsite.com/wallet/response/"
-    PAYTM_WEBSITE = "WEB_STAGING"
+    PAYTM_WEBSITE = "DIYtestingweb"
     PAYTM_TRANSACTION_STATUS_URL = "https://pguat.paytm.com/oltp/HANDLER_INTERNAL/TXNSTATUS"
     PAYTM_PAYMENT_GATEWAY_URL = "https://pguat.paytm.com/oltp-web/processTransaction"
 else:
