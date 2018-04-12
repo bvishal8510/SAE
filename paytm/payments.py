@@ -35,11 +35,12 @@ def GeneratePaymentPage(param_dict):
     </form>
     </html>"""
     print(33)
-    return HTML
+    print(type(HTML))
+    return HttpResponse(HTML)
 
 
 def PaytmPaymentPage(param_dict):
-    print(21);
+    print(21)
     param_dict['MID'] = MERCHANT_ID
     param_dict['INDUSTRY_TYPE_ID'] = PAYTM_INDUSTRY_TYPE_ID
     param_dict['WEBSITE'] = PAYTM_WEBSITE
@@ -47,11 +48,10 @@ def PaytmPaymentPage(param_dict):
     param_dict['CALLBACK_URL'] = CALLBACK_URL
     param_dict['MOBILE_NO'] = PAYTM_MOBILE
     param_dict['EMAIL'] = PAYTM_EMAIL
-    print(22);
+    print(22)
     param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-    print(23);
+    print(23)
     return (GeneratePaymentPage(param_dict))
-    print(24);
 
 
 def VerifyPaytmResponse(response):
