@@ -1,8 +1,14 @@
 from django.conf.urls import url, include
-from meter.views import payment, response
+# from meter.views import payment, response
 from meter import views
+from rest_framework.routers import DefaultRouter
+# from rest_framework.schemas import get_schema_view
+
+router = DefaultRouter()
+router.register(r'login', views.LoginViewSet)
+# router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
-    url(r'^payment/', views.payment, name='payment'),
-    url(r'^response/', views.response, name='response'),
+    url(r'^', include(router.urls)),
+    # url(r'^schema/$', schema_view),
 ]
