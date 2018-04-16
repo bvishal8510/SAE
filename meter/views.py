@@ -3,10 +3,10 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from meter.models import User_details
 from meter.serializers import UserSerializer
-from paytm.payments import PaytmPaymentPage
-from paytm import Checksum
+# from paytm.payments import PaytmPaymentPage
+# from paytm import Checksum
 from django.http import HttpResponse
-from paytm.payments import VerifyPaytmResponse,JsonResponse
+# from paytm.payments import VerifyPaytmResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -24,9 +24,8 @@ class LoginViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
-        return Response(serializer.data, "talk/index.html")
+        return Response(serializer.data, "meter/index.html", status=status.HTTP_201_CREATED)
 
-    
 
 # @api_view(['POST'])
 # def payment(request):
