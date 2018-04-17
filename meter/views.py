@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.authentication import TokenAuthentication
 from meter.models import User_details, Payment_details
-from meter.serializers import UserSerializer, PaymentSerializer
+from .serializers import UserSerializer, PaymentSerializer
 from paytm.payments import PaytmPaymentPage
 from paytm import Checksum
 from django.http import HttpResponse
@@ -10,9 +12,10 @@ from paytm.payments import VerifyPaytmResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import viewsets
+from rest_framework import status, viewsets, permissions, serializers
 import json
+import requests
+# from rest_framework.serializers import PaymentSerializer
 
 
 class LoginViewSet(viewsets.ModelViewSet):
@@ -22,15 +25,34 @@ class LoginViewSet(viewsets.ModelViewSet):
     http_method_names = ['post',]
 
     def perform_create(self, serializer):
-        serializer.save()
+        d = {}
+        d["name"] = serializer["name"].value
+        d["email"] = serializer["email"].value
+        # requests.post('http://httpbin.org/post', data = d)
+        return Response({"serializer":serializer},
+        #  "meter/index.html",
+         status=status.HTTP_201_CREATED)
+
+class LoginfromMainViewSet(viewsets.ModelViewSet):
+    
+    queryset = User_details.objects.all()
+    serializer_class = UserSerializer
+    http_method_names = ['post',]
+
+    def perform_create(self, serializer):
+        d = {}
+        d["name"] = serializer["name"].value
+        d["email"] = serializer["email"].value
         return Response(serializer.data,
-        #  "meter/index.html", 
          status=status.HTTP_201_CREATED)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
+
     queryset = Payment_details.objects.all()
     serializer_class = PaymentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
     http_method_names = ['post',]
 
     def perform_create(self, serializer):
@@ -47,18 +69,21 @@ class PaymentViewSet(viewsets.ModelViewSet):
         
 
 class ResponseViewSet(viewsets.ViewSet):
+
     queryset = Payment_details.objects.all()
     serializer_class = PaymentSerializer
+    # serializer_class = serializers.PaymentSerializer
     http_method_names = ['get',]
-    
-    def get(self, request):
+
+    def list(self, request):
         resp = VerifyPaytmResponse(request)
         if resp['verified']:
             print(resp['paytm']['ORDERID'])  
             return JsonResponse(resp['paytm'])
         else:
             return HttpResponse("Verification Failed")
-    
+
+
 # def response(request):
 #     resp = VerifyPaytmResponse(request)
 #     if resp['verified']:

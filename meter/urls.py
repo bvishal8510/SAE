@@ -9,7 +9,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'login', views.LoginViewSet)
 router.register(r'payment', views.PaymentViewSet)
-# router.register(r'response', views.ResponseViewSet)
+router.register(r'response', views.ResponseViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'paytm',
     'channels',
     'channels_api',
+    'rest_framework.authtoken',
 ]
 
 ASGI_APPLICATION = "sae.routing.application"
@@ -80,6 +81,12 @@ MIDDLEWARE = [
 #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 #     'PAGE_SIZE': 10
 # }
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 
 ROOT_URLCONF = 'sae.urls'
