@@ -66,19 +66,18 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 }
         print(PaytmPaymentPage(data_dict))
         return PaytmPaymentPage(data_dict)
-        
+
 
 class ResponseViewSet(viewsets.ViewSet):
-
-    queryset = Payment_details.objects.all()
-    serializer_class = PaymentSerializer
-    # serializer_class = serializers.PaymentSerializer
+    
+    # queryset = Payment_details.objects.all()
+    # serializer_class = PaymentSerializer
     http_method_names = ['get',]
 
     def list(self, request):
         resp = VerifyPaytmResponse(request)
         if resp['verified']:
-            print(resp['paytm']['ORDERID'])  
+            print(resp['paytm']['ORDERID'])
             return JsonResponse(resp['paytm'])
         else:
             return HttpResponse("Verification Failed")
