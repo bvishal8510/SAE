@@ -18,9 +18,8 @@ import json
 class LoginViewSet(viewsets.ModelViewSet):
     
     queryset = User_details.objects.all()
-    # model = User_details
     serializer_class = UserSerializer
-    # permission_classes = [IsAccountAdminOrReadOnly]
+    http_method_names = ['post',]
 
     def perform_create(self, serializer):
         serializer.save()
@@ -29,10 +28,10 @@ class LoginViewSet(viewsets.ModelViewSet):
          status=status.HTTP_201_CREATED)
 
 
-# @api_view(['POST'])
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment_details.objects.all()
     serializer_class = PaymentSerializer
+    http_method_names = ['post',]
 
     def perform_create(self, serializer):
         order_id = Checksum.__id_generator__()
@@ -46,6 +45,29 @@ class PaymentViewSet(viewsets.ModelViewSet):
         print(PaytmPaymentPage(data_dict))
         return PaytmPaymentPage(data_dict)
         
+
+class ResponseViewSet(viewsets.ViewSet):
+    queryset = Payment_details.objects.all()
+    serializer_class = PaymentSerializer
+    http_method_names = ['get',]
+    
+    def get(self, request):
+        resp = VerifyPaytmResponse(request)
+        if resp['verified']:
+            print(resp['paytm']['ORDERID'])  
+            return JsonResponse(resp['paytm'])
+        else:
+            return HttpResponse("Verification Failed")
+    
+# def response(request):
+#     resp = VerifyPaytmResponse(request)
+#     if resp['verified']:
+#         # save success details to db
+#         print(resp['paytm']['ORDERID'])  #SAVE THIS ORDER ID TO DB FOR TRANSACTION HISTORY
+#         return JsonResponse(resp['paytm'])
+#     else:
+#         return HttpResponse("Verification Failed")
+#     return HttpResponse(status=200)
 # def payment(request):
 #     serializer = PaymentSerializer(data=request, context={'request': request})
 #     print(request)
@@ -65,27 +87,3 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 # @csrf_exempt
 # # @api_view(['GET'])
-
-class ResponseViewSet(viewsets.ViewSet):
-    queryset = Payment_details.objects.all()
-    serializer_class = PaymentSerializer
-    
-    def get(self, request):
-        resp = VerifyPaytmResponse(request)
-        if resp['verified']:
-        # save success details to db
-            print(resp['paytm']['ORDERID'])  #SAVE THIS ORDER ID TO DB FOR TRANSACTION HISTORY
-            return JsonResponse(resp['paytm'])
-        else:
-            return HttpResponse("Verification Failed")
-    
-# def response(request):
-#     resp = VerifyPaytmResponse(request)
-#     if resp['verified']:
-#         # save success details to db
-#         print(resp['paytm']['ORDERID'])  #SAVE THIS ORDER ID TO DB FOR TRANSACTION HISTORY
-#         return JsonResponse(resp['paytm'])
-#     else:
-#         return HttpResponse("Verification Failed")
-#     return HttpResponse(status=200)
-
