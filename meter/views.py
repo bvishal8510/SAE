@@ -31,10 +31,9 @@ class LoginViewSet(viewsets.ModelViewSet):
         d["email"] = serializer["email"].value
         d["password"] = serializer["password"].value
         print(d)
-        r = requests.post('http://c80e5a85.ngrok.io', data=d)     # not allowed
+        r = requests.post('http://d00106a2.ngrok.io/main_login/', data=d)     # not allowed
         # r = requests.get('http://127.0.0.1:8000/response/')      # verification failed
-        print(1)
-        # print(list(r))
+        print(list(r))
         return serializer.data
 
 class LoginfromMainViewSet(viewsets.ModelViewSet):
