@@ -16,16 +16,13 @@ PAYTM_EMAIL = settings.PAYTM_EMAIL
 PAYTM_MOBILE = settings.PAYTM_MOBILE
 
 def GeneratePaymentPage(param_dict):
-    print(31)
     HTML = """<html>
     <h1>%s<br><br> Merchant Check Out Page<br><br> 
         Please Do Not Refresh The Page</h1></br>
     <form method="post" action="%s" name="f1">
     <table border="1">
     <tbody> """%(COMPANY_NAME,PAYTM_PAYMENT_GATEWAY_URL)
-    print(32)     
     for key,value in param_dict.items():
-        print(key,value)
         HTML += """<input type="hidden" name="%s" value="%s">"""%(key,value)
     HTML +="""</tbody>
     </table>
@@ -34,13 +31,10 @@ def GeneratePaymentPage(param_dict):
     </script>
     </form>
     </html>"""
-    print(33)
-    print(type(HTML))
     return HttpResponse(HTML)
 
 
 def PaytmPaymentPage(param_dict):
-    print(21)
     param_dict['MID'] = MERCHANT_ID
     param_dict['INDUSTRY_TYPE_ID'] = PAYTM_INDUSTRY_TYPE_ID
     param_dict['WEBSITE'] = PAYTM_WEBSITE
@@ -48,9 +42,7 @@ def PaytmPaymentPage(param_dict):
     param_dict['CALLBACK_URL'] = CALLBACK_URL
     param_dict['MOBILE_NO'] = PAYTM_MOBILE
     param_dict['EMAIL'] = PAYTM_EMAIL
-    print(22)
     param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-    print(23)
     return (GeneratePaymentPage(param_dict))
 
 

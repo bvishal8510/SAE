@@ -7,6 +7,7 @@ from meter.models import User_details, Payment_details
 from .serializers import UserSerializer, PaymentSerializer
 from paytm.payments import PaytmPaymentPage
 from paytm import Checksum
+from rest_framework.views import APIView
 from django.http import HttpResponse
 from paytm.payments import VerifyPaytmResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -28,10 +29,13 @@ class LoginViewSet(viewsets.ModelViewSet):
         d = {}
         d["name"] = serializer["name"].value
         d["email"] = serializer["email"].value
-        # requests.post('http://httpbin.org/post', data = d)
-        return Response({"serializer":serializer},
-        #  "meter/index.html",
-         status=status.HTTP_201_CREATED)
+        d["password"] = serializer["password"].value
+        print(d)
+        r = requests.post('http://c80e5a85.ngrok.io', data=d)     # not allowed
+        # r = requests.get('http://127.0.0.1:8000/response/')      # verification failed
+        print(1)
+        # print(list(r))
+        return serializer.data
 
 class LoginfromMainViewSet(viewsets.ModelViewSet):
     
@@ -68,19 +72,20 @@ class PaymentViewSet(viewsets.ModelViewSet):
         return PaytmPaymentPage(data_dict)
 
 
-class ResponseViewSet(viewsets.ViewSet):
+class Response(APIView):
     
     # queryset = Payment_details.objects.all()
     # serializer_class = PaymentSerializer
-    http_method_names = ['get',]
+    # http_method_names = ['get',]
 
-    def list(self, request):
+    def get(self, request):
         resp = VerifyPaytmResponse(request)
+        print(resp)
         if resp['verified']:
             print(resp['paytm']['ORDERID'])
             return JsonResponse(resp['paytm'])
         else:
-            return HttpResponse("Verification Failed")
+            return HttpResponse("Verification failed")
 
 
 # def response(request):
