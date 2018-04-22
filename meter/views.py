@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.authentication import TokenAuthentication
-from meter.models import User_details, Payment_details
+from rest_framework.authtoken.models import Token
+from meter.models import  Payment_details
 from .serializers import UserSerializer, PaymentSerializer
 from paytm.payments import PaytmPaymentPage
 from paytm import Checksum
@@ -16,29 +17,42 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions, serializers
 import json
 import requests
+from django.contrib.auth.models import User
 # from rest_framework.serializers import PaymentSerializer
 
 
 class LoginViewSet(viewsets.ModelViewSet):
     
-    queryset = User_details.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['post',]
 
     def perform_create(self, serializer):
         d = {}
-        d["name"] = serializer["name"].value
+        d["username"] = serializer["username"].value
         d["email"] = serializer["email"].value
         d["password"] = serializer["password"].value
         print(d)
-        r = requests.post('http://d00106a2.ngrok.io/main_login/', data=d)     # not allowed
-        # r = requests.get('http://127.0.0.1:8000/response/')      # verification failed
-        print(list(r))
-        return serializer.data
+        print(1)
+        r = requests.get('http://515dc955.ngrok.io/main_login/', params = d)
+        print(2)
+        # dat = r.json()
+        dat = json.loads(r.text)
+        print(dat)
+        print(dat['token'])
+        print(type(dat['token']))
+        if dat['token'] != "0":
+            user = User.objects.create(username = serializer["username"].value,
+                        email = serializer["email"].value, password = serializer["password"].value )
+            t = Token.objects.create(user = user)
+            print(t)
+            return HttpResponse("Verification completed")
+        else:
+            return HttpResponse("Verification failed")
 
 class LoginfromMainViewSet(viewsets.ModelViewSet):
     
-    queryset = User_details.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['post',]
 

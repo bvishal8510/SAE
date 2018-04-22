@@ -1,12 +1,13 @@
 from django.db import models
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 
-class User_details(models.Model):
-    name = models.CharField(max_length=100, blank=True, default='')
-    email = models.EmailField(max_length=70,blank=False)
-    # password = models.CharField(max_legnth=250, widget=serializers.PasswordInput)
-    Token = models.CharField(max_length=200,blank=False)
+# class User_details(User):
+#     name = models.CharField(max_length=100, blank=True, default='')
+#     email = models.EmailField(max_length=70,blank=False)
+#     # password = models.CharField(max_legnth=250, widget=serializers.PasswordInput)
+#     Token = models.CharField(max_length=200,blank=False)
 
 class Payment_details(models.Model):
     customer_id = models.CharField(max_length=100, blank=False)
