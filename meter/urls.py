@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'login', views.LoginViewSet)
+# router.register(r'test', views.TestViewSet)
 router.register(r'payment', views.PaymentViewSet)
 # router.register(r'response', views.ResponseViewSet)
 

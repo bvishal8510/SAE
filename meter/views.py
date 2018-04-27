@@ -18,6 +18,7 @@ from rest_framework import status, viewsets, permissions, serializers
 import json
 import requests
 from django.contrib.auth.models import User
+from meter.consumers import ws_connect
 # from rest_framework.serializers import PaymentSerializer
 
 
@@ -34,34 +35,20 @@ class LoginViewSet(viewsets.ModelViewSet):
         d["password"] = serializer["password"].value
         print(d)
         print(1)
-        r = requests.get('http://515dc955.ngrok.io/main_login/', params = d)
-        print(2)
+        # r = requests.get('http://aa3f45ed.ngrok.io/main_login/', params = d)
         # dat = r.json()
-        dat = json.loads(r.text)
-        print(dat)
-        print(dat['token'])
-        print(type(dat['token']))
+        dat = {'token':'0'}
         if dat['token'] != "0":
             user = User.objects.create(username = serializer["username"].value,
                         email = serializer["email"].value, password = serializer["password"].value )
             t = Token.objects.create(user = user)
-            print(t)
             return HttpResponse("Verification completed")
         else:
+            print(1)
+            ws_connect()
             return HttpResponse("Verification failed")
 
-class LoginfromMainViewSet(viewsets.ModelViewSet):
-    
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    http_method_names = ['post',]
-
-    def perform_create(self, serializer):
-        d = {}
-        d["name"] = serializer["name"].value
-        d["email"] = serializer["email"].value
-        return Response(serializer.data,
-         status=status.HTTP_201_CREATED)
+class ForgetViewSet(viewsets.Vi)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):

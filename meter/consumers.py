@@ -1,13 +1,47 @@
 import json
+import serial
+import requests
 from channels import Group, Channel
 from channels.auth import channel_session_user, channel_session_user_from_http
-from meter.models import User_details
+from django.contrib.auth.models import User
 from django.core import serializers
+from time import sleep
+import serial
+ser = serial.Serial('/dev/tty.usbmodem1d11', 9600) # Establish the connection on a specific port
+counter = 32 # Below 32 everything in ASCII is gibberish
+while True:
+     ser.readline() # Read the newest output from the Arduino
+     sleep(.1) # Delay for one tenth of a second
 
-@channel_session_user_from_http
-def ws_connect(message):
+
+# @channel_session_user_from_http
+# def ws_connect(message):
+def ws_connect():
     pass
-    # print(4)
+    # user = User.objects.get(pk = 1)
+    # d = {'email': user.email}
+    # r = requests.get('http://aa3f45ed.ngrok.io/get_bal/', params = d)
+    # dat = r.json()
+    # bal = dat['balance']
+    # ser1 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    # ser2 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    # while True:
+    #     d = {}
+    #     if bal > 0:
+    #         current = ser1.readline()      #multiply by 1000 or whatever needed
+    #         voltage = ser2.readline()      #multiply by 1000 or whatever needed
+    #         inst_power  = current * voltage
+    #         bal = bal - inst_power
+    #         d['current'] = current
+    #         d['voltage'] = voltage
+    #         d['inst_power'] = inst_power
+    #         d['left_power'] = bal
+    #         if bal < 150:                              #give some value
+    #             d['status'] = 0
+    #         else:
+    #             d['status'] = 1
+    #         message.reply_channel.send(d)
+    #         sleep(1)
     # message.reply_channel.send({"accept": True})
     # message.channel_session['rooms'] = []
     # # print(dict(message))
