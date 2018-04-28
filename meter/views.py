@@ -29,26 +29,31 @@ class LoginViewSet(viewsets.ModelViewSet):
     http_method_names = ['post',]
 
     def perform_create(self, serializer):
-        d = {}
-        d["username"] = serializer["username"].value
-        d["email"] = serializer["email"].value
-        d["password"] = serializer["password"].value
-        print(d)
         print(1)
-        # r = requests.get('http://aa3f45ed.ngrok.io/main_login/', params = d)
+        ws_connect()
+        return HttpResponse("Done")
+        # d = {}
+        # print(2)
+        # d["username"] = serializer["username"].value
+        # d["email"] = serializer["email"].value
+        # d["password"] = serializer["password"].value
+        # try:
+        #     r = requests.get('http://2403ae27.ngrok.io/main_login/', params = d)
+        #     d['server'] = 1
+        # except ConnectionError:
+        #     d['server'] = 0
         # dat = r.json()
-        dat = {'token':'0'}
-        if dat['token'] != "0":
-            user = User.objects.create(username = serializer["username"].value,
-                        email = serializer["email"].value, password = serializer["password"].value )
-            t = Token.objects.create(user = user)
-            return HttpResponse("Verification completed")
-        else:
-            print(1)
-            ws_connect()
-            return HttpResponse("Verification failed")
+        # print(dat)
+        # # dat = {'token':'0'}
+        # if dat['token'] != "0":
+        #     user = User.objects.create(username = serializer["username"].value,
+        #                 email = serializer["email"].value, password = serializer["password"].value )
+        #     t = Token.objects.create(user = user)
+        #     return HttpResponse("Verification completed")
+        # else:
+        #     return HttpResponse("Verification failed")
 
-class ForgetViewSet(viewsets.Vi)
+# class ForgetViewSet(viewsets.Vi)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):

@@ -7,11 +7,6 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from time import sleep
 import serial
-ser = serial.Serial('/dev/tty.usbmodem1d11', 9600) # Establish the connection on a specific port
-counter = 32 # Below 32 everything in ASCII is gibberish
-while True:
-     ser.readline() # Read the newest output from the Arduino
-     sleep(.1) # Delay for one tenth of a second
 
 
 # @channel_session_user_from_http
@@ -20,7 +15,7 @@ def ws_connect():
     pass
     # user = User.objects.get(pk = 1)
     # d = {'email': user.email}
-    # r = requests.get('http://aa3f45ed.ngrok.io/get_bal/', params = d)
+    # r = requests.get('http://2403ae27.ngrok.io/get_bal/', params = d)
     # dat = r.json()
     # bal = dat['balance']
     # ser1 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
@@ -42,10 +37,6 @@ def ws_connect():
     #             d['status'] = 1
     #         message.reply_channel.send(d)
     #         sleep(1)
-    # message.reply_channel.send({"accept": True})
-    # message.channel_session['rooms'] = []
-    # # print(dict(message))
-
 
 # @channel_session_user
 def ws_disconnect(message):
