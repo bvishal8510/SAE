@@ -3,11 +3,14 @@ from meter.models import Payment_details
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    # password = serializers.CharField(max_length = 100,style={'input_type': 'password'})
     class Meta:
         model = User
         fields = ('username', 'email','password')
 
+class ForgetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email','username')
 
 class PaymentSerializer(serializers.Serializer):
     customer_id = serializers.CharField(max_length=100)

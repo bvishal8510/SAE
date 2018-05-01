@@ -5,7 +5,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from meter.models import  Payment_details
-from .serializers import UserSerializer, PaymentSerializer
+from .serializers import UserSerializer, PaymentSerializer, ForgetSerializer
 from paytm.payments import PaytmPaymentPage
 from paytm import Checksum
 from rest_framework.views import APIView
@@ -33,18 +33,15 @@ class LoginViewSet(viewsets.ModelViewSet):
         ws_connect()
         return HttpResponse("Done")
         # d = {}
-        # print(2)
         # d["username"] = serializer["username"].value
         # d["email"] = serializer["email"].value
         # d["password"] = serializer["password"].value
         # try:
-        #     r = requests.get('http://2403ae27.ngrok.io/main_login/', params = d)
+        #     r = requests.get('http://5e620c2d.ngrok.io/main_login/', params = d)
         #     d['server'] = 1
         # except ConnectionError:
         #     d['server'] = 0
         # dat = r.json()
-        # print(dat)
-        # # dat = {'token':'0'}
         # if dat['token'] != "0":
         #     user = User.objects.create(username = serializer["username"].value,
         #                 email = serializer["email"].value, password = serializer["password"].value )
@@ -53,7 +50,19 @@ class LoginViewSet(viewsets.ModelViewSet):
         # else:
         #     return HttpResponse("Verification failed")
 
-# class ForgetViewSet(viewsets.Vi)
+class Forget(APIView):
+
+    def post(self, request):
+        d = {}
+        user = User.objects.get(pk = 1)
+        if user.email == request.data["email"]:
+            d["email"]=request.data["email"]
+            print(d)
+            r = requests.get('http://5e620c2d.ngrok.io/forget/', params = d)
+            dat = r.json()
+            print(dat)
+            return HttpResponse("Done")
+        return HttpResponse("Failed")
 
 
 class PaymentViewSet(viewsets.ModelViewSet):

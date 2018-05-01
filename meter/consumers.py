@@ -15,7 +15,7 @@ def ws_connect():
     pass
     # user = User.objects.get(pk = 1)
     # d = {'email': user.email}
-    # r = requests.get('http://2403ae27.ngrok.io/get_bal/', params = d)
+    # r = requests.get('http://5e620c2d.ngrok.io/get_bal/', params = d)
     # dat = r.json()
     # bal = dat['balance']
     # ser1 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
