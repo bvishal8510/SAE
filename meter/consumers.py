@@ -13,6 +13,8 @@ import serial
 # def ws_connect(message):
 def ws_connect():
     pass
+    # sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    # sermain.write(0)                                               #to turn meter on
     # user = User.objects.get(pk = 1)
     # d = {'email': user.email}
     # r = requests.get('http://5e620c2d.ngrok.io/get_bal/', params = d)
@@ -38,16 +40,19 @@ def ws_connect():
     #         message.reply_channel.send(d)
     #         sleep(1)
 
+
 # @channel_session_user
-def ws_disconnect(message):
-    pass
-    # print(5)
-    # for room_id in message.channel_session.get("rooms", set()):
-    #     try:
-    #         room = Room.objects.get(pk=room_id)
+def ws_disconnect():       #send left out energy as argument
+    # pass
+
+    # sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    # sermain.write(0)                                               #to turn meter on
+    user = User.objects.get(pk = 1)
+    d = {'email': user.email}
+    d['energy'] = message.energy
+    r = requests.put('http://5e620c2d.ngrok.io/get_bal/', data = d)
+    
     #         room.websocket_group.discard(message.reply_channel)
-    #     except Room.DoesNotExist:
-    #         pass
 
 def ws_receive(message):
     pass

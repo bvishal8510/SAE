@@ -18,7 +18,7 @@ from rest_framework import status, viewsets, permissions, serializers
 import json
 import requests
 from django.contrib.auth.models import User
-from meter.consumers import ws_connect
+from meter.consumers import ws_connect, ws_disconnect
 # from rest_framework.serializers import PaymentSerializer
 
 
@@ -30,7 +30,8 @@ class LoginViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         print(1)
-        ws_connect()
+        # ws_connect()
+        ws_disconnect()
         return HttpResponse("Done")
         # d = {}
         # d["username"] = serializer["username"].value
@@ -44,7 +45,7 @@ class LoginViewSet(viewsets.ModelViewSet):
         # dat = r.json()
         # if dat['token'] != "0":
         #     user = User.objects.create(username = serializer["username"].value,
-        #                 email = serializer["email"].value, password = serializer["password"].value )
+        #                 email = serializer["email"].value, password = serializer["password"].value)
         #     t = Token.objects.create(user = user)
         #     return HttpResponse("Verification completed")
         # else:
