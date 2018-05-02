@@ -43,6 +43,7 @@ def PaytmPaymentPage(param_dict):
     param_dict['MOBILE_NO'] = PAYTM_MOBILE
     param_dict['EMAIL'] = PAYTM_EMAIL
     param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+    print(param_dict)
     return (GeneratePaymentPage(param_dict))
 
 

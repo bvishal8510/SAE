@@ -83,6 +83,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 'TXN_AMOUNT': bill_amount,
                 'CUST_ID': cust_id
                 }
+        print(data_dict)
         print(PaytmPaymentPage(data_dict))
         return PaytmPaymentPage(data_dict)
 

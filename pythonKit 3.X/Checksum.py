@@ -14,10 +14,28 @@ def generate_checksum(param_dict, merchant_key, salt=None):
     params_string = __get_param_string__(param_dict)
     salt = salt if salt else __id_generator__(4)
     final_string = '%s|%s' % (params_string, salt)
+
     hasher = hashlib.sha256(final_string.encode())
     hash_string = hasher.hexdigest()
+
     hash_string += salt
-    print(1)
+
+    return __encode__(hash_string, IV, merchant_key)
+
+def generate_refund_checksum(param_dict, merchant_key, salt=None):
+    for i in param_dict:    
+    if("|" in param_dict[i]):
+        param_dict = {}
+        exit()
+    params_string = __get_param_string__(param_dict)
+    salt = salt if salt else __id_generator__(4)
+    final_string = '%s|%s' % (params_string, salt)
+
+    hasher = hashlib.sha256(final_string.encode())
+    hash_string = hasher.hexdigest()
+
+    hash_string += salt
+
     return __encode__(hash_string, IV, merchant_key)
 
 
@@ -64,8 +82,7 @@ def __id_generator__(size=6, chars=string.ascii_uppercase + string.digits + stri
 
 def __get_param_string__(params):
     params_string = []
-    # for key in sorted(params.iterkeys()):
-    for key in sorted(params.keys()):
+    for key in sorted(params.iterkeys()):
         value = params[key]
         params_string.append('' if value == 'null' else str(value))
     return '|'.join(params_string)
@@ -83,7 +100,6 @@ def __encode__(to_encode, iv, key):
     to_encode = c.encrypt(to_encode)
     # Encode
     to_encode = base64.b64encode(to_encode)
-    print(13)
     return to_encode
 
 
@@ -93,7 +109,26 @@ def __decode__(to_decode, iv, key):
     # Decrypt
     c = AES.new(key, AES.MODE_CBC, iv)
     to_decode = c.decrypt(to_decode)
+    if type(to_decode) == bytes:
+        # convert bytes array to str.
+        to_decode = to_decode.decode()
     # remove pad
     return __unpad__(to_decode)
 
 
+if __name__ == "__main__":
+    params = {
+        "MID": "mid",
+        "ORDER_ID": "order_id",
+        "CUST_ID": "cust_id",
+        "TXN_AMOUNT": "1",
+        "CHANNEL_ID": "WEB",
+        "INDUSTRY_TYPE_ID": "Retail",
+        "WEBSITE": "xxxxxxxxxxx"
+    }
+
+    print verify_checksum(
+        params, 'xxxxxxxxxxxxxxxx',
+        "CD5ndX8VVjlzjWbbYoAtKQIlvtXPypQYOg0Fi2AUYKXZA5XSHiRF0FDj7vQu66S8MHx9NaDZ/uYm3WBOWHf+sDQAmTyxqUipA7i1nILlxrk=")
+
+    # print generate_checksum(params, "xxxxxxxxxxxxxxxx")
