@@ -13,8 +13,7 @@ class ForgetSerializer(serializers.ModelSerializer):
         fields = ('email','username')
 
 class PaymentSerializer(serializers.Serializer):
-    customer_id = serializers.CharField(max_length=100)
     payment_amount = serializers.IntegerField()
 
     class Meta:
-        fields = ('customer_id', 'payment_amount',)
+        fields = ('payment_amount',)

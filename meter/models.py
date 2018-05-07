@@ -10,10 +10,12 @@ from django.contrib.auth.models import User
 #     Token = models.CharField(max_length=200,blank=False)
 
 class Payment_details(models.Model):
-    customer_id = models.CharField(max_length=100, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_amount = models.IntegerField(blank=False)
     order_id = models.CharField(max_length=100, blank=False)
     
+class Customer(models.Model):
+    customer_id = models.CharField(max_length=100, blank=False)
 
 # class Meter_details(models.Model):
 #     meter_no = models.IntegerField(blank=False)

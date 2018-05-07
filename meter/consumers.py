@@ -13,41 +13,42 @@ import serial
 # def ws_connect(message):
 def ws_connect():
     pass
-    # sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
-    # sermain.write(0)                                               #to turn meter on
-    # user = User.objects.get(pk = 1)
-    # d = {'email': user.email}
-    # r = requests.get('http://5e620c2d.ngrok.io/get_bal/', params = d)
-    # dat = r.json()
-    # bal = dat['balance']
-    # ser1 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
-    # ser2 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
-    # while True:
-    #     d = {}
-    #     if bal > 0:
-    #         current = ser1.readline()      #multiply by 1000 or whatever needed
-    #         voltage = ser2.readline()      #multiply by 1000 or whatever needed
-    #         inst_power  = current * voltage
-    #         bal = bal - inst_power
-    #         d['current'] = current
-    #         d['voltage'] = voltage
-    #         d['inst_power'] = inst_power
-    #         d['left_power'] = bal
-    #         if bal < 150:                              #give some value
-    #             d['status'] = 0
-    #         else:
-    #             d['status'] = 1
-    #         message.reply_channel.send(d)
-    #         sleep(1)
+    sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    sermain.write(1)                                               #to turn meter on
+    user = User.objects.get(pk = 1)
+    user = User.objects.get(pk = dict(message.channel_session)['_auth_user_id'])
+    d = {'email': user.email}
+    r = requests.get('http://5e620c2d.ngrok.io/get_bal/', params = d)
+    dat = r.json()
+    bal = dat['balance']
+    ser1 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    ser2 = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    while True:
+        d = {}
+        if bal > 0:
+            current = ser1.readline()      #multiply by 1000 or whatever needed
+            voltage = ser2.readline()      #multiply by 1000 or whatever needed
+            inst_power  = current * voltage
+            bal = bal - inst_power
+            d['current'] = current
+            d['voltage'] = voltage
+            d['inst_power'] = inst_power
+            d['left_power'] = bal
+            if bal < 150:                              #give some value
+                d['status'] = 0
+            else:
+                d['status'] = 1
+            message.reply_channel.send(d)
+            sleep(1)
 
 
 # @channel_session_user
 def ws_disconnect():       #send left out energy as argument
     # pass
 
-    # sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
-    # sermain.write(0)                                               #to turn meter on
-    user = User.objects.get(pk = 1)
+    sermain = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+    sermain.write(0)                                               #to turn meter off
+    user = User.objects.get(pk = dict(message.channel_session)['_auth_user_id'])
     d = {'email': user.email}
     d['energy'] = message.energy
     r = requests.put('http://5e620c2d.ngrok.io/get_bal/', data = d)

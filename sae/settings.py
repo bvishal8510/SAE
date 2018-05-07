@@ -164,24 +164,24 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # https://github.com/harishbisht/paytm
-PAYTM_MERCHANT_COMPANY_NAME = "<YOUR-COMPANY-NAME>"
+PAYTM_MERCHANT_COMPANY_NAME = "Electrocity"
 PAYTM_CHANNEL_ID = "WEB"
-PAYTM_EMAIL  = "<YOUR-EMAIL-ID>"
-PAYTM_MOBILE = "<YOUR-MOBILE-NUMBER>"
+PAYTM_EMAIL  = "baghel.vishal124124@gmail.com"
+PAYTM_MOBILE = "7777777777"
 PAYTM_STAGING = True
 if PAYTM_STAGING:
-    PAYTM_MERCHANT_KEY = "bKMfNxPPf_QdZppa"
+    PAYTM_MERCHANT_KEY = "9FhH0WzRGl_onpVZ"
     PAYTM_INDUSTRY_TYPE_ID = "Retail"
-    PAYTM_MERCHANT_ID = "DIY12386817555501617"
+    PAYTM_MERCHANT_ID = "SIStag51638137983584"
     PAYTM_CALLBACK_URL = "http://127.0.0.1:8000/response/" if DEBUG else "http://www.yourwebsite.com/wallet/response/"
-    PAYTM_WEBSITE = "DIYtestingweb"
+    PAYTM_WEBSITE = " WEBSTAGING"
     PAYTM_TRANSACTION_STATUS_URL = "https://pguat.paytm.com/oltp/HANDLER_INTERNAL/TXNSTATUS"
     PAYTM_PAYMENT_GATEWAY_URL = "https://pguat.paytm.com/oltp-web/processTransaction"
 else:
     PAYTM_MERCHANT_KEY = "<YOUR-LIVE-MERCHANT-KEY>"
     PAYTM_MERCHANT_ID = "<YOUR-LIVE-MERCHANT-ID>"
     PAYTM_CALLBACK_URL = "<YOUR-LIVE-CALLBACK-URL>"
-    PAYTM_INDUSTRY_TYPE_ID = "Retail92"
+    PAYTM_INDUSTRY_TYPE_ID = "Retail"
     PAYTM_WEBSITE = "<PAYTM-WEBSITE-ID>"
     PAYTM_TRANSACTION_STATUS_URL = "https://secure.paytm.in/oltp/HANDLER_INTERNAL/TXNSTATUS"
     PAYTM_PAYMENT_GATEWAY_URL = "https://secure.paytm.in/oltp-web/processTransaction"

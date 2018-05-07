@@ -7,7 +7,7 @@ import json
 import requests
 
 print "Content-type: text/html\n"
-MERCHANT_KEY = 'kbzk1DSbJiV_O3p5';
+MERCHANT_KEY = 'kbzk1DSbJiV_O3p5'
 import cgi
 
 form = cgi.FieldStorage()
