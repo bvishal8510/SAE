@@ -44,7 +44,7 @@ schemas==0.7.1
 six==1.11.0
 stripe==1.79.1
 suds-jurko==0.6
-Twisted==17.9.0
+Twisted==19.7.0
 txaio==2.8.2
 urllib3==1.22
 websocket-client==0.47.0
